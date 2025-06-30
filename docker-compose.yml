@@ -1,0 +1,50 @@
+
+version: '3.8'
+
+services:
+  app:
+    build: ./fastapi-app
+    ports:
+      - "8000:8000"
+    labels:
+      - "monitoring=true"
+    networks:
+      - monitoring
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - monitoring
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    networks:
+      - monitoring
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - prometheus
+
+  falco:
+    privileged: true
+    image: falcosecurity/falco
+    command: falco -r /etc/falco/falco_rules.yaml
+    volumes:
+      - /var/run/docker.sock:/host/var/run/docker.sock
+      - /dev:/host/dev
+      - /proc:/host/proc:ro
+      - /boot:/host/boot:ro
+      - /lib/modules:/host/lib/modules:ro
+      - /usr:/host/usr:ro
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
+    driver: bridge
