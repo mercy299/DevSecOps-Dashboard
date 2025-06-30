@@ -1,0 +1,50 @@
+# Byte-compiled / compiled files
+__pycache__/
+*.py[cod]
+*.pyc
+
+# Virtual environments
+.venv/
+env/
+venv/
+
+# Python packaging
+*.egg-info/
+dist/
+build/
+
+# Logs
+*.log
+
+# Docker
+*.pid
+*.tar
+docker-compose.override.yml
+
+# VSCode settings
+.vscode/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Secrets (if added later)
+.env
+*.key
+*.crt
+
+# Node_modules (in case Node.js is added later)
+node_modules/
+
+# Grafana provisioning cache or sessions (if mapped)
+grafana/data/
+grafana/plugins/
+
+# Prometheus data (if mapped in future)
+prometheus/data/
+
+# Falco logs/output (if mapped)
+falco/output.log
+
+# Zip archives
+*.zip
